@@ -32,6 +32,19 @@ app.use(appContext);
  */
 app.use('*', appMiddleware);
 
+/**
+ * Log middleware para depurar rutas
+ */
+app.use('*', async (c, next) => {
+  console.log(
+    '[GLOBAL]',
+    c.req.method,
+    c.req.path,
+    JSON.stringify(Object.fromEntries(c.req.raw.headers)),
+  );
+  await next();
+});
+
 // Auth server.
 app.route('/api/auth', auth);
 

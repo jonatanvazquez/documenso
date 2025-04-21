@@ -11,7 +11,14 @@ export const sessionRoute = new Hono()
     return c.json(session);
   })
   .get('/session-json', async (c) => {
-    const session: SessionValidationResult = await getOptionalSession(c);
+    console.log('[SESSION-JSON] Request recibida');
+    try {
+      const session: SessionValidationResult = await getOptionalSession(c);
+      console.log('[SESSION-JSON] Session obtenida:', JSON.stringify(session));
 
-    return c.json(superjson.serialize(session));
+      return c.json(superjson.serialize(session));
+    } catch (error) {
+      console.error('[SESSION-JSON] Error:', error);
+      throw error;
+    }
   });

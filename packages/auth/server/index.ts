@@ -19,6 +19,10 @@ import type { HonoAuthContext } from './types/context';
 // Note: You must chain routes for Hono RPC client to work.
 export const auth = new Hono<HonoAuthContext>()
   .use(async (c, next) => {
+    console.log('[AUTH]', c.req.method, c.req.path);
+    await next();
+  })
+  .use(async (c, next) => {
     c.set('requestMetadata', extractRequestMetadata(c.req.raw));
 
     const validOrigin = new URL(NEXT_PUBLIC_WEBAPP_URL()).origin;
