@@ -48,6 +48,16 @@ app.use('*', async (c, next) => {
 // Auth server.
 app.route('/api/auth', auth);
 
+// Manejador para la ruta específica que da error
+app.get('/api/auth/session-json', async (c) => {
+  // Redirige a la ruta correcta dentro del manejador de auth
+  return await auth.fetch(
+    new Request(`${c.req.url.replace('/api/auth/session-json', '/session-json')}`),
+    c.env,
+    c.executionCtx,
+  );
+});
+
 // Files route.
 app.route('/api/files', filesRoute);
 
